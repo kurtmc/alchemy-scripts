@@ -4,16 +4,14 @@ import sys
 import os
 from fuzzywuzzy import fuzz
 import shutil
+import inspect
 
 # Constants
 product_info_dir = "/home/kurt/alchemy-workspace/Product_Information"
 sds_dir = "/home/kurt/alchemy-workspace/SDS-copy"
 pds_dir = "/home/kurt/alchemy-workspace/PDS-copy"
 current_product_file = "/home/kurt/alchemy-workspace/current-product.txt"
-commands = ["search", "open", "copy", "help", "exit", "next", "current", "index"]
-
-
-fuzzy_threshold = 90
+        
 
 # globals
 sds_search_results = []
@@ -27,7 +25,7 @@ def get_current_product():
 
 
 class Commands:
-    def search(args):
+    def search(args, fuzzy_threshold = 90):
         sds_list = os.listdir(sds_dir)
         pds_list = os.listdir(pds_dir)
         
@@ -77,7 +75,7 @@ class Commands:
     def exit(args):
         sys.exit()
 
-    def next(args):
+    def next(args, jump=1):
         current_product = get_current_product()
 
         file_list = os.listdir(product_info_dir)
@@ -87,11 +85,14 @@ class Commands:
         if current_product not in file_list:
             print("file: '" + current_product + "' is not in " + product_info_dir)
         else:
-            current_product = file_list[file_list.index(current_product) + 1]
+            current_product = file_list[file_list.index(current_product) + jump]
             f = open(current_product_file,'w')
             f.write(current_product)
             f.close();
             print("Current product: " + current_product)
+
+    def previous(args):
+        Commands.next(args, -1)
 
 
 
@@ -102,6 +103,15 @@ class Commands:
         file_list = os.listdir(product_info_dir)
         file_list.sort()
         print("At index", file_list.index(get_current_product()),"out of", len(file_list))
+
+    def fuzzy(args):
+        fuzz = int(args.split()[0])
+        search_args = args[args.index(" ") + 1:]
+        Commands.search(search_args, fuzz)
+
+commands = []
+for funct in inspect.getmembers(Commands, predicate=inspect.isfunction):
+    commands.append(funct[0])
 
 
 Commands.current(True)
