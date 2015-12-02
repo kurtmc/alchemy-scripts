@@ -72,7 +72,7 @@ class Commands:
         
 
     def help(args):
-        print("help", args)
+        print("no command selected, start with: " + ", ".join(commands))
 
     def exit(args):
         sys.exit()
@@ -122,4 +122,4 @@ while True:
             pass
         command(args)
     else:
-        print("no command selected, start with: " + ", ".join(commands))
+        Commands.help(None)
