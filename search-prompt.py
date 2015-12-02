@@ -10,7 +10,7 @@ product_info_dir = "/home/kurt/alchemy-workspace/Product_Information"
 sds_dir = "/home/kurt/alchemy-workspace/SDS-copy"
 pds_dir = "/home/kurt/alchemy-workspace/PDS-copy"
 current_product_file = "/home/kurt/alchemy-workspace/current-product.txt"
-commands = ["search", "open", "copy", "help", "exit", "next", "current"]
+commands = ["search", "open", "copy", "help", "exit", "next", "current", "index"]
 
 
 fuzzy_threshold = 90
@@ -101,13 +101,10 @@ class Commands:
     def index(args):
         file_list = os.listdir(product_info_dir)
         file_list.sort()
-        print("At index " + file_list.index(get_current_product()) + " out of " + len(file_list)
-
-
+        print("At index", file_list.index(get_current_product()),"out of", len(file_list))
 
 
 Commands.current(True)
-
 while True:
 
     user_cmd = input("> ")
