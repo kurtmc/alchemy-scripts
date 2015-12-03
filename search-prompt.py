@@ -6,6 +6,13 @@ from fuzzywuzzy import fuzz
 import shutil
 import inspect
 
+# Handle Ctrl + C
+import signal
+import sys
+def signal_handler(signal, frame):
+    print('Type "exit" to quit')
+signal.signal(signal.SIGINT, signal_handler)
+
 # Constants
 product_info_dir = "/home/kurt/alchemy-workspace/Product_Information"
 sds_dir = "/home/kurt/alchemy-workspace/SDS-copy"
