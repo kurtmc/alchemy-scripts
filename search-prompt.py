@@ -112,8 +112,21 @@ class Commands:
         print("At index", file_list.index(get_current_product()),"out of", len(file_list))
 
     def fuzzy(args):
-        fuzz = int(args.split()[0])
-        search_args = args[args.index(" ") + 1:]
+        try:
+            number = args.split()[0]
+        except IndexError:
+            print("usage: fuzzy <0-100>  <search terms>")
+            return
+        try:
+            fuzz = int(number)
+        except ValueError:
+            print(number, "is not a number")
+            return
+        try:
+            search_args = args[args.index(" ") + 1:]
+        except ValueError:
+            print("usage: fuzzy <0-100>  <search terms>")
+            return
         Commands.search(search_args, fuzz)
 
 commands = []
