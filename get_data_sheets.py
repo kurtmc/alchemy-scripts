@@ -35,9 +35,12 @@ def process_website(root_url, directory, subpage_query, document_query, process_
         document_link = document_query(subpage)
         process_document_link(document_link)
 
-def process_website2(root, directory, process_subpage, process_document_link):
+def get_product_pages(soup):
+    return soup.find_all('a', 'marginal')
+
+def process_website2(root, directory, get_subpage_links, process_subpage, process_document_link):
     soup = get_soup(root + directory)
-    link_list = soup.find_all('a', 'marginal')
+    link_list = get_subpage_links(soup)
     for i in link_list:
         l = process_subpage(i)
         process_document_link(l)
@@ -45,14 +48,4 @@ def process_website2(root, directory, process_subpage, process_document_link):
 root = "https://techcenter.lanxess.com"
 directory = "/scp/emea/en/products/type/index.jsp?pid=55"
 
-#process_website(root, directory, ('a', 'marginal'), get_pdf_link, process_pdf_link)
-process_website2(root, directory, process_link, process_pdf_link)
-exit()
-
-pdf_list = []
-soup = get_soup(root + directory)
-link_list = soup.find_all('a', 'marginal')
-for i in link_list:
-    l = process_link(i)
-    pdf_list.append(l)
-    process_pdf_link(l)
+process_website2(root, directory, get_product_pages, process_link, process_pdf_link)
