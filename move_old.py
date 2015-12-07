@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import dateutil.parser as dparser
 from subprocess import Popen, PIPE
@@ -9,7 +11,7 @@ from dateutil.relativedelta import relativedelta
 def exec_cmd(cmd):
 	return os.popen(cmd).read()
 
-working_dir = "/home/kurt/alchemy-workspace/Product Data Sheet Stuff/Product_Data_Sheets"
+working_dir = "/home/kurt/alchemy-workspace/data_sheet_collection/from_flash_drives/product data sheets/"
 
 pdfs = dict()
 
