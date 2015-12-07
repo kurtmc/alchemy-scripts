@@ -3,6 +3,28 @@
 import csv
 from fuzzywuzzy import fuzz
 
+def join_lists(list_a, list_b, criteria):
+    joined_list = []
+    for x in list_a:
+        for y in list_b:
+            if criteria(x, y):
+                joined_list.append(x + y)
+    return joined_list
+
+def read_csv(file_name, skip_first=False, delimiter=',', quotechar='"'):
+    csv_list = []
+    with open(file_name, newline='') as csvfile:
+        active_reader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
+        first = skip_first
+        for row in active_reader:
+            if not first:
+                csv_list.append(row)
+            else:
+                first = False
+    return csv_list
+    
+
+
 # Prints a list of lists in CSV format
 def print_csv(csv_list):
     for item in csv_list:
@@ -24,36 +46,28 @@ def print_csv(csv_list):
         else:
             print(v, sep="")
 
-nz_active_file = "New Zealand Active Products.csv"
-aus_active_file = "Australia Active Products.csv"
-paths_file = "File Paths (tab delimited).csv"
-nav_list_file = "NAV product list.csv"
+root = "/home/kurt/alchemy-workspace/Product Information Tables/"
+nz_active_file = root + "New Zealand Active Products.csv"
+aus_active_file = root + "Australia Active Products.csv"
+paths_file = root + "File Paths (tab delimited).csv"
+nav_list_file = root + "NAV product list.csv"
 
 active_products = []
-for active_product_file in [nz_active_file, aus_active_file]:
-    
-    with open(active_product_file, newline='') as csvfile:
-        active_reader = csv.reader(csvfile, delimiter=',', quotechar='"')
-        first = True
-        for row in active_reader:
-            if not first:
-                active_products.append(row)
-            else:
-                first = False
+for active_product_file in [nav_list_file]:
+    active_products += read_csv(active_product_file, skip_first=True)
 
 data_sheet_paths = []
+data_sheet_paths += read_csv(paths_file, skip_first=True, delimiter='\t')
 
+aus_id_list = []
+tmp = read_csv(aus_active_file, skip_first=True)
+for i in tmp:
+    aus_id_list.append(i[0])
 
-with open(paths_file, newline='') as csvfile:
-    active_reader = csv.reader(csvfile, delimiter='\t', quotechar='"')
-    first = True
-    for row in active_reader:
-        if not first:
-            data_sheet_paths.append(row)
-        else:
-            first = False
-
-#print(data_sheet_paths[0])
+nz_id_list = []
+tmp = read_csv(nz_active_file, skip_first=True)
+for i in tmp:
+    nz_id_list.append(i[0])
 
 not_found = []
 
@@ -72,10 +86,6 @@ for item in data_sheet_paths:
 
     if not found:
         not_found.append(item)
-
-#print("Relation length:", len(relation))
-#print("Not found length:", len(not_found))
-
 
 for item in not_found:
     ratios = dict()
@@ -96,10 +106,10 @@ for item in not_found:
             relation.append((item, product))
             break
 
-rows = [["Rubbish ID", "SDS", "PDS", "NAV ID", "DESCRIPTION"]]
+rows = [["Rubbish ID", "SDS", "PDS", "NAV ID", "DESCRIPTION", "VENDOR ID", "DATABASE"]]
 for r in relation:
 
-    row = [None] * 5
+    row = [None] * 7
     for i in range(1, len(rows)):
         if rows[i][0] == r[0][0]:
             row = rows[i]
@@ -113,6 +123,12 @@ for r in relation:
 
     row[3] = r[1][0]
     row[4] = r[1][1]
+    row[5] = r[1][9]
+
+    if row[0] in aus_id_list:
+        row[6] = "AUS"
+    else:
+        row[6] = "NZ"
 
     rows.append(row)
 
