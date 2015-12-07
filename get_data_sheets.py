@@ -25,16 +25,6 @@ def process_pdf_link(link):
 def get_pdf_link(soup):
     return subpage.find_all(href=is_pdf)[0].get("href")
 
-def process_website(root_url, directory, subpage_query, document_query, process_document_link):
-    root_page = get_soup(root_url + directory)
-
-    sublinks = root_page.find_all(subpage_query)
-
-    for sublink in sublinks:
-        subpage = get_soup(root + sublink.get("href"))
-        document_link = document_query(subpage)
-        process_document_link(document_link)
-
 def get_product_pages(soup):
     return soup.find_all('a', 'marginal')
 
