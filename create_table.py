@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-import csv
-from fuzzywuzzy import fuzz
+from csv_utils import *
 
 def join_lists(list_a, list_b, criteria):
     joined_list = []
@@ -11,40 +10,6 @@ def join_lists(list_a, list_b, criteria):
                 joined_list.append(x + y)
     return joined_list
 
-def read_csv(file_name, skip_first=False, delimiter=',', quotechar='"'):
-    csv_list = []
-    with open(file_name, newline='') as csvfile:
-        active_reader = csv.reader(csvfile, delimiter=delimiter, quotechar=quotechar)
-        first = skip_first
-        for row in active_reader:
-            if not first:
-                csv_list.append(row)
-            else:
-                first = False
-    return csv_list
-    
-
-
-# Prints a list of lists in CSV format
-def print_csv(csv_list):
-    for item in csv_list:
-        p = item
-        for i in range(len(p) - 1):
-            v = p[i]
-            if v == None:
-                v = ""
-            if "," in v or "\n" in v:
-                print('"' + v + '"', end="")
-            else:
-                print(v, sep="", end="")
-
-            print(",", end="")
-
-        v = p[-1]
-        if "," in v or "\n" in v:
-            print('"' + v + '"')
-        else:
-            print(v, sep="")
 
 root = "/home/kurt/alchemy-workspace/Product Information Tables/"
 nz_active_file = root + "New Zealand Active Products.csv"
