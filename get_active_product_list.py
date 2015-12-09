@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from fuzzywuzzy import fuzz
 from csv_utils import *
 
 nz_active_file = "/home/kurt/alchemy-workspace/Product Information Tables/New Zealand Active Products.csv"
