@@ -47,18 +47,7 @@ def get_closest_match2(item_id, listing, index):
     return max_value
 
 def get_closest_match(item_id, listing):
-    ratios = dict()
-    for x in listing:
-        ratios[x[0]] = (fuzz.ratio(item_id, x[0]), x)
-
-    max_ratio = 0
-    max_value = None
-    for k in ratios.keys():
-        if ratios[k][0] > max_ratio:
-            max_ratio = ratios[k][0]
-            max_value = ratios[k][1]
-
-    return max_value
+    return get_closest_match2(item_id, listing, 0)
 
 def read_csv(file_name, skip_first=False, delimiter=',', quotechar='"'):
     csv_list = []
