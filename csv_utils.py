@@ -32,6 +32,27 @@ def fuzzy_join(table_a, table_b, index_a, index_b):
 
     return result
 
+def join(table_a, table_b, index_a, index_b):
+    table_b_size = len(table_b[0])
+    result = []
+    for row_a in table_a:
+        id_a = row_a[index_a]
+        closest = get_match(id_a, table_b, index_b)
+        if closest == None:
+            closest = [""] * table_b_size
+
+        result.append(row_a + closest)
+
+    return result
+
+def get_match(item_id, listing, index):
+    for x in listing:
+        if item_id == x[index]:
+            return x
+
+    return None
+
+
 def get_closest_match2(item_id, listing, index):
     ratios = dict()
     for x in listing:
