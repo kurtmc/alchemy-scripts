@@ -1,6 +1,13 @@
 #!/bin/bash
 
 FILENAME=$1
+
+if [ -z "$FILENAME" ]; then
+	echo "Usage: append-footer <filename>"
+	exit
+fi
+
+
 TMP_DIR=tmp_dir
 OUTPUT_DIR=output
 BASENAME=$(basename "$FILENAME")
