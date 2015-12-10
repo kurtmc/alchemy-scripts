@@ -6,8 +6,6 @@ nz_active_file = "/home/kurt/alchemy-workspace/Product Information Tables/New Ze
 aus_active_file = "/home/kurt/alchemy-workspace/Product Information Tables/Australia Active Products.csv"
 nav_list_file = "/home/kurt/alchemy-workspace/Product Information Tables/NAV product list.csv"
 
-
-
 nz_active = []
 tmp = read_csv(nz_active_file, skip_first=True)
 for item in tmp:
@@ -25,9 +23,7 @@ for item in tmp:
 
 all_active = nz_active + aus_active
 all_active.insert(0, ["ID", "Description", "Database", "NAV ID", "Vendor ID"])
+
+result = fuzzy_join(all_active, nav, 0, 0)
         
-for i in range(len(all_active)):
-    all_active[i] = all_active[i] + get_closest_match(all_active[i][0], nav)
-
-print_csv(all_active)
-
+print_csv(result)

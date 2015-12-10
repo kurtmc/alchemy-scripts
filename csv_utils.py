@@ -22,6 +22,29 @@ def print_csv(csv_list):
         else:
             print(v, sep="")
 
+
+def fuzzy_join(table_a, table_b, index_a, index_b):
+    result = []
+
+    for item in table_a:
+        result.append(item + get_closest_match2(item[index_a], table_b, index_b))
+
+    return result
+
+def get_closest_match2(item_id, listing, index):
+    ratios = dict()
+    for x in listing:
+        ratios[x[index]] = (fuzz.ratio(item_id, x[index]), x)
+
+    max_ratio = 0
+    max_value = None
+    for k in ratios.keys():
+        if ratios[k][0] > max_ratio:
+            max_ratio = ratios[k][0]
+            max_value = ratios[k][1]
+
+    return max_value
+
 def get_closest_match(item_id, listing):
     ratios = dict()
     for x in listing:
