@@ -25,9 +25,10 @@ def print_csv(csv_list):
 
 def fuzzy_join(table_a, table_b, index_a, index_b):
     result = []
-
-    for item in table_a:
-        result.append(item + get_closest_match2(item[index_a], table_b, index_b))
+    for row_a in table_a:
+        id_a = row_a[index_a]
+        closest = get_closest_match2(id_a, table_b, index_b)
+        result.append(row_a + closest)
 
     return result
 
@@ -70,3 +71,20 @@ def read_csv(file_name, skip_first=False, delimiter=',', quotechar='"'):
             else:
                 first = False
     return csv_list
+
+def get_columns(data, column_list):
+    result = []
+    for item in data:
+        tmp = []
+        for i in column_list:
+            tmp = tmp + [item[i]]
+        result.append(tmp)
+    return result
+
+def add_column(data, default=None):
+    result = []
+    for item in data:
+        result.append(item + [default])
+
+    return result
+
