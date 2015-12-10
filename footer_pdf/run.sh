@@ -3,7 +3,7 @@
 FILENAME=$1
 TMP_DIR=tmp_dir
 OUTPUT_DIR=output
-BASENAME=$(basename $FILENAME)
+BASENAME=$(basename "$FILENAME")
 
 rm -rf $TMP_DIR
 mkdir -p $TMP_DIR
