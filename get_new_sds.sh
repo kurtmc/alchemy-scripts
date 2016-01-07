@@ -1,7 +1,10 @@
 #!/bin/bash
-OLD_DIR=SDS-copy
-NEW_DIR=SDS-copy2
-OUTPUT=new_sds
+
+# usage ./get_new old_dir new_dir out_dir
+
+OLD_DIR=$1
+NEW_DIR=$2
+OUTPUT=$3
 
 mkdir $OUTPUT
 
