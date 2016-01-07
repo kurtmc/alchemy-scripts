@@ -3,19 +3,20 @@
 # usage: ./compare_and_get_new.sh old_dir new_dir out_dir
 function useage {
 	echo "usage: ./compare_and_get_new.sh old_dir new_dir out_dir"
+	exit 1
 }
 
 OLD_DIR=$1
 NEW_DIR=$2
 OUTPUT=$3
 
-if [ -n "$OLD_DIR" ]; then
+if [ -z "$OLD_DIR" ]; then
 	useage
 fi
-if [ -n "$NEW_DIR" ]; then
+if [ -z "$NEW_DIR" ]; then
 	useage
 fi
-if [ -n "$OUTPUT" ]; then
+if [ -z "$OUTPUT" ]; then
 	useage
 fi
 
